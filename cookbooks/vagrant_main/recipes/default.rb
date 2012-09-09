@@ -14,6 +14,13 @@ apt_repository "php5" do
   key "E5267A6C"
 end
 
+apt_repository "ajenti" do
+  uri "http://repo.ajenti.org/debian"
+  distribution "main"
+  components ["main"]
+  key "http://repo.ajenti.org/debian/key"
+end
+
 require_recipe "apt"
 require_recipe "build-essential"
 require_recipe "php"
@@ -23,7 +30,7 @@ require_recipe "git"
 require_recipe "imagemagick"
 require_recipe "openssl"
 
-%w{ libpcre3-dev }.each do |package_name|
+%w{ libpcre3-dev ajenti }.each do |package_name|
   package package_name
 end
 

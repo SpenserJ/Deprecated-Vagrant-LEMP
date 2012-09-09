@@ -27,8 +27,8 @@ Vagrant::Config.run do |config|
 
     chef.json.merge!({
       :mysql => { :server_root_password => "root" },
-      :nginx => { :default_site_root => "/var/www/com.default"},#, :user => "www" },
-      #:php   => { :fpm_user => "www", :fpm_group => "www"  }
+      :nginx => { :default_site_root => "/var/www/default", :user => "www", :log_dir => "/var/log/nginx" },
+      :php   => { :fpm_user => "www", :fpm_group => "www"  }
     })
   end
 end
