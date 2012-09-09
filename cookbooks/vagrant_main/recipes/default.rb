@@ -31,3 +31,47 @@ php_pear "apc"   do; action :install; end
 php_pear "curl"  do; action :install; end
 php_pear "gd"    do; action :install; end
 php_pear "mysql" do; action :install; end
+
+group "www" do
+  action :create
+end
+
+user "www" do
+  gid "www"
+  home "/var/www"
+  system true
+  shell "/bin/false"
+end
+
+cookbook_file "/etc/nginx/sites-available/default" do
+  source "nginx/sites/default"
+  mode 0640
+  owner "root"
+  group "root"
+  notifies :restart, resources(:service => "nginx")
+end
+
+directory "/var/log/nginx/default" do
+  owner "root"
+  group "root"
+  mode "0755"
+  recursive true
+  action :create
+end
+
+nginx_site 'default' do
+  enable true
+end
+
+directory "/var/www/default" do
+  owner "www"
+  group "www"
+  mode "0755"
+  recursive true
+  action :create
+end
+
+file "/var/www/default/index.html" do
+  action :create
+  content "<h1>Server is configured</h1>"
+end
