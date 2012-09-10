@@ -1,3 +1,16 @@
+group "www" do
+  action :create
+end
+
+user "www" do
+  gid "www"
+  home "/var/www"
+  system true
+  shell "/bin/false"
+end
+
+require_recipe "apt"
+
 apt_repository "nginx" do
   uri "http://ppa.launchpad.net/nginx/stable/ubuntu"
   distribution node['lsb']['codename']
@@ -21,7 +34,10 @@ apt_repository "ajenti" do
   key "http://repo.ajenti.org/debian/key"
 end
 
-require_recipe "apt"
+execute "apt-get update" do
+  user "root"
+end
+
 require_recipe "build-essential"
 require_recipe "php"
 require_recipe "nginx"
@@ -30,7 +46,7 @@ require_recipe "git"
 require_recipe "imagemagick"
 require_recipe "openssl"
 
-%w{ libpcre3-dev ajenti }.each do |package_name|
+%w{ libpcre3-dev ajenti python-psutil python-imaging }.each do |package_name|
   package package_name
 end
 
@@ -38,17 +54,6 @@ php_pear "apc"   do; action :install; end
 php_pear "curl"  do; action :install; end
 php_pear "gd"    do; action :install; end
 php_pear "mysql" do; action :install; end
-
-group "www" do
-  action :create
-end
-
-user "www" do
-  gid "www"
-  home "/var/www"
-  system true
-  shell "/bin/false"
-end
 
 cookbook_file "/etc/nginx/sites-available/default" do
   source "nginx/sites/default"
@@ -81,4 +86,11 @@ end
 file "/var/www/default/index.html" do
   action :create
   content "<h1>Server is configured</h1>"
+end
+
+cookbook_file "/root/ajenti-re.conf" do
+  source "ajenti/ajenti-re.conf"
+  mode 0640
+  owner "root"
+  group "root"
 end
