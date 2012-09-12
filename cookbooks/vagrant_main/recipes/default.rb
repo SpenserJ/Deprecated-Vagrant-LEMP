@@ -46,6 +46,13 @@ require_recipe "git"
 require_recipe "imagemagick"
 require_recipe "openssl"
 
+cookbook_file "/root/ajenti-re.conf" do
+  source "ajenti/ajenti-re.conf"
+  mode 0640
+  owner "root"
+  group "root"
+end
+
 %w{ libpcre3-dev ajenti python-psutil python-imaging }.each do |package_name|
   package package_name
 end
@@ -88,9 +95,6 @@ file "/var/www/default/index.html" do
   content "<h1>Server is configured</h1>"
 end
 
-cookbook_file "/root/ajenti-re.conf" do
-  source "ajenti/ajenti-re.conf"
-  mode 0640
-  owner "root"
-  group "root"
-end
+#website "pure_html" do
+#  server_name "html.ambrose.edu"
+#end

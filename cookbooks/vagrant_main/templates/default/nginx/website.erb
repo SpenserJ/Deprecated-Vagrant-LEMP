@@ -1,0 +1,12 @@
+server {
+  listen        443 ssl;
+  server_name   <%= @params[:server_name] %>;
+  root          /var/www/<%= @params[:server_name] %>;
+
+  access_log    /var/log/nginx/<%= @params[:server_name] %>/access.log;
+  error_log     /var/log/nginx/<%= @params[:server_name] %>/error.log;
+
+  location ~* \.php$ {
+    include /usr/local/nginx/conf/fastcgi.conf;
+  }
+}
