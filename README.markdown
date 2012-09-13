@@ -19,9 +19,9 @@ What's Inside:
 --------------
 
 Installed software:
-+ Ubuntu 12.04 x64
-+ nginx v1.2.6 (ppa: https://launchpad.net/~nginx/+archive/stable)
++ Ubuntu 12.04 (64-bit) 
++ nginx 1.2.6 (ppa: https://launchpad.net/~nginx/+archive/stable)
 + mysql 5.5
-+ php v5.4.3 (ppa: https://launchpad.net/~ondrej/+archive/php5)
-+ ajenti v0.6.1
++ php 5.4.3 (ppa: https://launchpad.net/~ondrej/+archive/php5)
++ ajenti 0.6.1
 + git
