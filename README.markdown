@@ -6,7 +6,7 @@ Default LEMP development stack configuration for Vagrant.
 Usage:
 ------
 
-Download Vagrant from http://vagrantup.com.
+Download and install Vagrant and VirtualBox from http://vagrantup.com and https://www.virtualbox.org/ respectively.
 
 Clone this repository.
 
