@@ -11,8 +11,8 @@ Download Vagrant from http://vagrantup.com.
 Clone this repository
 
 Go to the repository folder and launch the Vagrant box
-> $ cd [repo]
-> $ vagrant up
+'cd [repo]'  
+'vagrant up'
 
 What's Inside:
 --------------
