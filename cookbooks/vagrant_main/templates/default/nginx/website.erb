@@ -7,6 +7,6 @@ server {
   error_log     /var/log/nginx/<%= @params[:server_name] %>/error.log;
 
   location ~* \.php$ {
-    include /usr/local/nginx/conf/fastcgi.conf;
+    include /etc/nginx/fastcgi_params;
   }
 }

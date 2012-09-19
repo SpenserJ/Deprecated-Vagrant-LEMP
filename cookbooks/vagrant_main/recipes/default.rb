@@ -62,12 +62,18 @@ php_pear "curl"  do; action :install; end
 php_pear "gd"    do; action :install; end
 php_pear "mysql" do; action :install; end
 
+cookbook_file "/etc/nginx/fastcgi_params" do
+  source "nginx/fastcgi_params"
+  mode 0640
+  owner "root"
+  group "root"
+end
+
 cookbook_file "/etc/nginx/sites-available/default" do
   source "nginx/sites/default"
   mode 0640
   owner "root"
   group "root"
-  notifies :restart, resources(:service => "nginx")
 end
 
 directory "/var/log/nginx/default" do
@@ -95,6 +101,6 @@ file "/var/www/default/index.html" do
   content "<h1>Server is configured</h1>"
 end
 
-#website "pure_html" do
-#  server_name "html.ambrose.edu"
-#end
+website_stock "pure_html" do
+  server_name "html.ambrose.edu"
+end
