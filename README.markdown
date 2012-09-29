@@ -8,12 +8,12 @@ Usage:
 
 Download and install Vagrant and VirtualBox from http://vagrantup.com and https://www.virtualbox.org/ respectively.
 
-Clone this repository.
-
-Go to the repository folder and launch the Vagrant box:
-	
-    $ cd [repo]
-    $ vagrant up
+Clone this repository and launch Vagrant box:
+```
+$ git clone --recursive git://github.com/SpenserJ/Vagrant-LEMP.git [repo]
+$ cd [repo]
+$ vagrant up
+```
 
 What's Inside:
 --------------
