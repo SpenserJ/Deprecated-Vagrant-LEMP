@@ -53,7 +53,7 @@ cookbook_file "/root/ajenti-re.conf" do
   group "root"
 end
 
-%w{ libpcre3-dev ajenti python-psutil python-imaging }.each do |package_name|
+%w{ libpcre3-dev ajenti python-psutil python-imaging curl }.each do |package_name|
   package package_name
 end
 
@@ -69,38 +69,13 @@ cookbook_file "/etc/nginx/fastcgi_params" do
   group "root"
 end
 
-cookbook_file "/etc/nginx/sites-available/default" do
-  source "nginx/sites/default"
-  mode 0640
-  owner "root"
-  group "root"
-end
-
-directory "/var/log/nginx/default" do
-  owner "root"
-  group "root"
-  mode "0755"
-  recursive true
-  action :create
-end
-
-nginx_site 'default' do
-  enable true
-end
-
-directory "/var/www/default" do
-  owner "www"
-  group "www"
-  mode "0755"
-  recursive true
-  action :create
-end
-
-file "/var/www/default/index.html" do
-  action :create
-  content "<h1>Server is configured</h1>"
-end
-
-website_stock "pure_html" do
-  server_name "html.ambrose.edu"
+node[:website].each do | name, website_config |
+  website_stock name do
+    server_name website_config[:server_name].nil? ? name : website_config[:server_name]
+    enable  website_config[:enable]  if !website_config[:enable].nil?
+    default website_config[:default] if !website_config[:default].nil?
+    http    website_config[:http]    if !website_config[:http].nil?
+    https   website_config[:https]   if !website_config[:https].nil?
+    php     website_config[:php]     if !website_config[:php].nil?
+  end
 end

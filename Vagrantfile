@@ -28,10 +28,6 @@ Vagrant::Config.run do |config|
     chef.cookbooks_path = "cookbooks"
     chef.add_recipe("vagrant_main")
 
-    chef.json.merge!({
-      :mysql => { :server_root_password => "root" },
-      :nginx => { :default_site_root => "/var/www/default", :user => "www", :log_dir => "/var/log/nginx" },
-      :php   => { :fpm_user => "www", :fpm_group => "www"  }
-    })
+    chef.json.merge!(JSON.parse(File.read("chef-solo.json")))
   end
 end

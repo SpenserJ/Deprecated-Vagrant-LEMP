@@ -1,12 +1,19 @@
 server {
-  listen        443 ssl;
+<%- if @params[:http] %>
+  listen        80<% if @params[:default] %> default<% end %>;
+<%- end %>
+<%- if @params[:https] %>
+  listen        443 ssl<% if @params[:default] %> default<% end %>;
+<%- end %>
   server_name   <%= @params[:server_name] %>;
   root          /var/www/<%= @params[:server_name] %>;
 
   access_log    /var/log/nginx/<%= @params[:server_name] %>/access.log;
   error_log     /var/log/nginx/<%= @params[:server_name] %>/error.log;
+<%- if @params[:php] %>
 
   location ~* \.php$ {
     include /etc/nginx/fastcgi_params;
   }
+<%- end %>
 }

@@ -1,4 +1,4 @@
-define :website_stock, :enable => true do
+define :website_stock, :enable => true, :http => true do
   include_recipe "nginx"
 
   template "#{node['nginx']['dir']}/sites-available/#{params[:name]}.conf" do
@@ -11,16 +11,23 @@ define :website_stock, :enable => true do
   end
 
   directory "/var/www/#{params[:server_name]}" do
-    owner "www"
-    group "www"
+    owner node['nginx']['user']
+    group node['nginx']['user']
     mode "0755"
     recursive true
     action :create
   end
 
-  file "/var/www/#{params[:server_name]}/index.html" do
-    action :create
-    content "<h1>#{params[:server_name]} is configured</h1>"
+  if params[:php]
+    file "/var/www/#{params[:server_name]}/index.php" do
+      action :create
+      content "<h1>#{params[:server_name]} is configured</h1><?php phpinfo(); ?>"
+    end
+  else
+    file "/var/www/#{params[:server_name]}/index.html" do
+      action :create
+      content "<h1>#{params[:server_name]} is configured</h1>"
+    end
   end
 
   directory "/var/log/nginx/#{params[:server_name]}" do
@@ -31,7 +38,5 @@ define :website_stock, :enable => true do
     action :create
   end
 
-  nginx_site "#{params[:name]}.conf" do
-    enable enable
-  end
+  if params[:enable] == true; nginx_site "#{params[:name]}.conf" do; enable true end; end
 end
