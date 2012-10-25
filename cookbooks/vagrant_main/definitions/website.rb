@@ -10,7 +10,7 @@ define :website_stock, :enable => true, :http => true do
     variables( :params => params )
   end
 
-  directory "/var/www/#{params[:server_name]}" do
+  directory "/var/www/#{params[:name]}" do
     owner node['nginx']['user']
     group node['nginx']['user']
     mode "0755"
@@ -19,18 +19,18 @@ define :website_stock, :enable => true, :http => true do
   end
 
   if params[:php]
-    file "/var/www/#{params[:server_name]}/index.php" do
+    file "/var/www/#{params[:name]}/index.php" do
       action :create
-      content "<h1>#{params[:server_name]} is configured</h1><?php phpinfo(); ?>"
+      content "<h1>#{params[:name]} is configured</h1><?php phpinfo(); ?>"
     end
   else
-    file "/var/www/#{params[:server_name]}/index.html" do
+    file "/var/www/#{params[:name]}/index.html" do
       action :create
-      content "<h1>#{params[:server_name]} is configured</h1>"
+      content "<h1>#{params[:name]} is configured</h1>"
     end
   end
 
-  directory "/var/log/nginx/#{params[:server_name]}" do
+  directory "/var/log/nginx/#{params[:name]}" do
     owner "root"
     group "root"
     mode "0755"

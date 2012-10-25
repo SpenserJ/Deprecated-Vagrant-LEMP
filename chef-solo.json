@@ -1,11 +1,13 @@
 {
-  "run_list": "recipe[vagrant_main]",
+  "run_list": ["recipe[hostname]", "recipe[vagrant_main]"],
   "mysql": { "server_root_password": "root" },
   "nginx": { "default_site_enabled": false, "user": "www", "log_dir": "/var/log/nginx" },
   "php":   { "fpm_user": "www", "fpm_group": "www"  },
+  "set_fqdn": "lemp",
+  "phpmyadmin": true,
   "website": {
-    "testing.com": { "default": true, "php": true, "https": true },
-    "random": { "server_name": "google.ca", "php": false, "https": true, "http": false, "enable": false },
-    "wootage.org": {}
+    "dev1.localhost": { "default": true, "php": true, "https": true },
+    "dev2.localhost": { "server_name": "dev2.localhost", "php": false, "https": true, "http": false, "enable": false },
+    "dev3.localhost": {}
   }
 }

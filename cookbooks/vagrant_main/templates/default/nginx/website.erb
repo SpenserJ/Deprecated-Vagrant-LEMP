@@ -6,10 +6,10 @@ server {
   listen        443 ssl<% if @params[:default] %> default<% end %>;
 <%- end %>
   server_name   <%= @params[:server_name] %>;
-  root          /var/www/<%= @params[:server_name] %>;
+  root          /var/www/<%= @params[:name] %>;
 
-  access_log    /var/log/nginx/<%= @params[:server_name] %>/access.log;
-  error_log     /var/log/nginx/<%= @params[:server_name] %>/error.log;
+  access_log    /var/log/nginx/<%= @params[:name] %>/access.log;
+  error_log     /var/log/nginx/<%= @params[:name] %>/error.log;
 <%- if @params[:php] %>
 
   location ~* \.php$ {

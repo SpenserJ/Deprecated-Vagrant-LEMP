@@ -25,3 +25,9 @@
 [submodule "cookbooks/ohai"]
 	path = cookbooks/ohai
 	url = https://github.com/opscode-cookbooks/ohai.git
+[submodule "cookbooks/hostsfile"]
+	path = cookbooks/hostsfile
+	url = https://github.com/customink-webops/hostsfile.git
+[submodule "cookbooks/hostname"]
+	path = cookbooks/hostname
+	url = https://github.com/franco/chef-hostname.git
