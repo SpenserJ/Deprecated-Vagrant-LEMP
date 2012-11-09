@@ -30,6 +30,10 @@ define :website_stock, :enable => true, :http => true do
     end
   end
 
+  if params[:php]
+    # Configure a PHP-FPM pool
+  end
+
   directory "/var/log/nginx/#{params[:name]}" do
     owner "root"
     group "root"

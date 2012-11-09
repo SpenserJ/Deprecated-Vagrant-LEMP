@@ -18,7 +18,8 @@ Vagrant::Config.run do |config|
   # folder, and the third is the path on the host to the actual folder.
   # config.vm.share_folder "v-data", "/vagrant_data", "../data"
 
-  config.vm.share_folder "www-data", "/var/www/", "www/", :create => true
+  # Causes issues with file permissions. Change this to NFS shares in the future
+  # config.vm.share_folder "www-data", "/var/www/", "www/", :create => true
 
   config.vm.customize do |vm|
     vm.memory_size = 256

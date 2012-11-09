@@ -39,7 +39,7 @@ execute "apt-get update" do
 end
 
 require_recipe "build-essential"
-require_recipe "php"
+# require_recipe "chef-php-fpm"
 require_recipe "nginx"
 require_recipe "mysql::server"
 require_recipe "git"
@@ -57,10 +57,10 @@ end
   package package_name
 end
 
-php_pear "apc"   do; action :install; end
-php_pear "curl"  do; action :install; end
-php_pear "gd"    do; action :install; end
-php_pear "mysql" do; action :install; end
+# php_pear "apc"   do; action :install; end
+# php_pear "curl"  do; action :install; end
+# php_pear "gd"    do; action :install; end
+# php_pear "mysql" do; action :install; end
 
 cookbook_file "/etc/nginx/fastcgi_params" do
   source "nginx/fastcgi_params"
@@ -76,28 +76,26 @@ node[:website]["phpmyadmin"] = { "server_name" => "phpmyadmin.localhost", "php" 
 
 node[:website].each do | name, website_config |
   website_stock name do
-    server_name website_config[:server_name].nil? ? name : website_config[:server_name]
-    enable  website_config[:enable]  if !website_config[:enable].nil?
-    default website_config[:default] if !website_config[:default].nil?
-    http    website_config[:http]    if !website_config[:http].nil?
-    https   website_config[:https]   if !website_config[:https].nil?
-    php     website_config[:php]     if !website_config[:php].nil?
-
-    host_aliases.push website_config[:server_name].nil? ? name : website_config[:server_name]
+    website_config[:server_name] ||= name                      # Set the server_name to name, if it isn't set
+    website_config.each { |key, value| self.send(key, value) } # Set up the definition based on our website_config hash.
+    host_aliases.push website_config[:server_name]             # Add this server name to our host alias list for /etc/hosts
   end
 end
 
 if node[:phpmyadmin] == true
   remote_file "/tmp/phpmyadmin.tar.gz" do
     source "http://downloads.sourceforge.net/project/phpmyadmin/phpMyAdmin/3.5.3/phpMyAdmin-3.5.3-all-languages.tar.gz?r=&ts=#{Time.now.to_i}&use_mirror=autoselect"
-    owner "www"
-    group "www"
+    owner node[:nginx][:user]
+    group node[:nginx][:user]
     mode "0644"
   end
 
+  execute "rm -rf /var/www/phpmyadmin/*"
   execute "tar -C /tmp -zxvf /tmp/phpmyadmin.tar.gz"
   execute "mv /tmp/phpMyAdmin-*/* /var/www/phpmyadmin"
 end
+
+execute "sudo chown -R #{node[:nginx][:user]}:#{node[:nginx][:user]} /var/www"
 
 hostsfile_entry '127.0.1.1' do
   ip_address '127.0.1.1'

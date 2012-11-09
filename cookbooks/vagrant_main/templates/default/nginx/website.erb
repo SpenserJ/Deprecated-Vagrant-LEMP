@@ -8,6 +8,8 @@ server {
   server_name   <%= @params[:server_name] %>;
   root          /var/www/<%= @params[:name] %>;
 
+  index         <% if @params[:php] %>index.php <% end %>index.html;
+
   access_log    /var/log/nginx/<%= @params[:name] %>/access.log;
   error_log     /var/log/nginx/<%= @params[:name] %>/error.log;
 <%- if @params[:php] %>
