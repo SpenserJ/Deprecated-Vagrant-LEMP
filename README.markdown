@@ -1,3 +1,8 @@
+Deprecated repository
+=====================
+
+This repository is no longer being maintained, and has been replaced by [SpenserJ/Ansible-Webhost](https://github.com/SpenserJ/Ansible-Webhost).
+
 Vagrant-LEMP Stack
 ==================
 
